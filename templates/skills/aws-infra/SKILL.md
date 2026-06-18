@@ -55,8 +55,8 @@ description: AWS infrastructure — IAM, S3, ECS, CloudFormation, OIDC
 ```
 
 - **NUNCA** use long-lived access keys em pipelines
-- Legacy accounts: role `AzureDevOpsServiceConnection`
-- New accounts: role `azdo-federation`
+- Legacy accounts: role dedicada ao service connection
+- New accounts: role com OIDC federation
 - Template compartilhado: `steps/aws-login-oidc.yaml`
 
 ## Role Chaining — Pegadinha Crítica

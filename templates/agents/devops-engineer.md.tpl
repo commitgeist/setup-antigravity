@@ -46,8 +46,8 @@ via **commit** nos repositórios de manifests (`argocd-manifests-production`,
 ### Regras de OIDC Federation
 - **SEMPRE** use OIDC Federation para autenticação AWS em pipelines.
 - **NUNCA** use long-lived access keys (AK/SK).
-- Legacy accounts: role `AzureDevOpsServiceConnection`.
-- New accounts: role `azdo-federation`.
+- Legacy accounts: role dedicada ao service connection.
+- New accounts: role com OIDC federation.
 - Templates compartilhados: `steps/aws-login-oidc.yaml`.
 
 ### Após Role Chaining
@@ -97,22 +97,24 @@ shellcheck scripts/*.sh
 
 ## Naming Convention
 
-Padrão: `prc` + `env` + `sistema` + `region` + `tipo` + `seq3dig`
+Defina um padrão consistente para seus recursos. Exemplo de convenção:
+
+`{prefixo}{env}{sistema}{region}{tipo}{seq3dig}`
 
 - **env**: `p` (prod), `i` (homologação/QA), `d` (dev)
-- **region**: Azure `zu1`/`zu2`, AWS `au1`
-- **tipo**: `aks`, `acr`, `agw`, `aps`, `aur`, `s3`, `cf`, `r53`
+- **region**: Azure `eus1`/`eus2`, AWS `use1`
+- **tipo**: `aks`, `acr`, `agw`, `s3`, `cf`, `r53`
 
 Exemplos:
-- `prcp1zu1aks001` — AKS prod, East US
-- `prci1zu1acr001` — ACR QA, East US
-- `prcp10au1s3001` — S3 prod Axioma ERP
+- `myorg-p-eus1-aks-001` — AKS prod, East US
+- `myorg-i-eus1-acr-001` — ACR QA, East US
+- `myorg-p-use1-s3-001` — S3 prod, us-east-1
 
 ## Pools de Agent (Azure DevOps)
 
 | Pool | Tipo | Detalhes |
 |------|------|----------|
-| `custom` | K8s Deployment | `prcp1zu1aks001`, ns `devopscustomagents`, 5 réplicas |
+| `custom` | K8s Deployment | Cluster prod, namespace dedicado, N réplicas |
 | `Docker_Agent` | VMSS | Autoscale com profile SaveMoney |
 | `Linux_Agents` | VMSS | Specs maiores, sem SaveMoney |
 

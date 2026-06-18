@@ -15,7 +15,7 @@ trigger:
     exclude: [docs/*, README.md]
 
 pool:
-  name: custom   # K8s agents no prcp1zu1aks001
+  name: custom   # K8s agents no cluster de CI
 
 variables:
   - group: MyApp-Production    # Variable Group — nunca hardcode secrets
@@ -126,7 +126,7 @@ steps:
 | `Docker_Agent`  | VMSS, autoscale SaveMoney      | Builds com Docker           |
 | `Linux_Agents`  | VMSS, specs maiores            | Builds pesados, Terraform   |
 
-- Pool `custom` roda no `prcp1zu1aks001`, namespace `devopscustomagents`
+- Pool `custom` roda no cluster AKS de CI, namespace dedicado a agents
 - VMSS pools escalam automaticamente conforme demanda
 
 ## Environment Approvals
