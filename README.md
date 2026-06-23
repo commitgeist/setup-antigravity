@@ -44,8 +44,8 @@ Conceitos-chave:
 
 ```bash
 # 1. Instalar o Gemini CLI
-npm install -g @anthropic/gemini-cli
-# ou: npx @anthropic/gemini-cli
+npm install -g @google/gemini-cli
+# ou: npx @google/gemini-cli
 
 # 2. Dependências do setup
 jq --version    # apt install jq / brew install jq
