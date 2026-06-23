@@ -350,6 +350,34 @@ if [[ "$SCOPE" == "local" ]]; then
   install_template "${TEMPLATES_DIR}/docs/adr/README.md" "docs/adr/README.md"
   install_template "${TEMPLATES_DIR}/docs/CONCEPTS.md" "docs/CONCEPTS.md"
   ok "docs/adr/ criado com TEMPLATE + README + CONCEPTS"
+
+  # References — configs reais como base de conhecimento
+  REFS_DIR="${TARGET_DIR}/references"
+  mkdir -p "$REFS_DIR"
+  cp "${TEMPLATES_DIR}/references/README.md" "$REFS_DIR/README.md"
+
+  case "$PROFILE" in
+    devops)
+      mkdir -p "$REFS_DIR/pipeline" "$REFS_DIR/scripts"
+      [[ "${USE_K8S:-}" == "Sim" ]] && mkdir -p "$REFS_DIR/k8s-manifests"
+      has "AWS" "${CLOUDS_ARR[@]:-}" && mkdir -p "$REFS_DIR/ecs"
+      ;;
+    appdev)
+      mkdir -p "$REFS_DIR/api" "$REFS_DIR/tests"
+      [[ "${USE_DOCKER:-}" == "Sim" ]] && mkdir -p "$REFS_DIR/docker"
+      [[ -n "${FRONTEND:-}" && "${FRONTEND}" != "Nenhum" ]] && mkdir -p "$REFS_DIR/frontend"
+      ;;
+    tooling)
+      mkdir -p "$REFS_DIR/cli" "$REFS_DIR/tests"
+      [[ "${USE_DOCKER:-}" == "Sim" ]] && mkdir -p "$REFS_DIR/docker"
+      ;;
+    custom)
+      mkdir -p "$REFS_DIR/pipeline" "$REFS_DIR/scripts" "$REFS_DIR/tests"
+      ;;
+  esac
+
+  find "$REFS_DIR" -type d -empty -exec touch {}/.gitkeep \;
+  ok "references/ criado — cole seus arquivos reais aqui"
 else
   info "Scope global — docs/adr não instalados"
 fi
